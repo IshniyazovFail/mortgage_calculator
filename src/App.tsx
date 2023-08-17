@@ -36,7 +36,7 @@ function App() {
 
                 <select onChange={onChangeBank}>
                     <option value=" vtb">ВТБ</option>
-                    <option value="alfa">Альфа-банк</option>
+                    <option value="alfa"></option>
                     <option value="sovcom">Совкомбанк</option>
                 </select>
             </div>
