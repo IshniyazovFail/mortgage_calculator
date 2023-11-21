@@ -24,7 +24,8 @@ type creditTermType = ReturnType<typeof creditTermAC>
 type calculationType = ReturnType<typeof calculationAC>
 let initialState: BanksStateType = {
     bet: 0,
-    bank: {name: "alfa", data: [{pv: 10, percent: 12.39}, {pv: 15, percent: 11.89}]},
+    /*bank: {name: "alfa", data: [{pv: 10, percent: 12.39}, {pv: 15, percent: 11.89}]},*/
+    bank: {name: "", data: [ {pv: 0, percent: 0}]},
     costApartment:0,
     creditTerm:20,
     pvRubFinal:0,
