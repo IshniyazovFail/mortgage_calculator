@@ -21,14 +21,16 @@ function App() {
     const onaMortgageFinal = useSelector<RootStateType, number>(state => state.onaMortgageFinal)
     const paymentFinal = useSelector<RootStateType, number>(state => state.paymentFinal)
     const [pvPercent, setPvPercent] = useState(bank.data[0].pv)
-
     const dispatsh = useDispatch()
+
 
     const banks = [
         {name: "alfa", data: [{pv: 10, percent: 12.39}, {pv: 15, percent: 11.89}]},
         {name: "vtb", data: [{pv: 10, percent: 11.2}, {pv: 20, percent: 10.9}]},
         {name: "sovcom", data: [{pv: 15, percent: 11.99}]}
     ]
+
+    const [error,setError]=useState('')
     // const bet1 = bet / 100
     useEffect(() => {
         dispatsh(betSelectionAC(bank.data[0].percent))
@@ -52,6 +54,11 @@ function App() {
     const changeCreditTerm = (e: ChangeEvent<HTMLInputElement>) => {
         dispatsh(creditTermAC(Number(e.target.value)))
     }
+
+    const InputCostApartmentHandler = (e: ChangeEvent<HTMLInputElement>) => {
+            dispatsh(costApartmentAC(Number(e.target.value)))
+    }
+
     const calculation = () => {
         const pvRub = costApartment * pvPercent / 100
         const onaMortgage = costApartment - pvRub
@@ -94,14 +101,18 @@ function App() {
             </div>
             <div className={style.blok}>
                 Стоимость квартиры
-                <input type='number' value={costApartment}
-                       onChange={(e: ChangeEvent<HTMLInputElement>) => dispatsh(costApartmentAC(Number(e.target.value)))}
-                />
+                <div>
+                    <input type={'number'}  value={costApartment}
+                           onChange={InputCostApartmentHandler}
+                    />
+                    {error}
+                </div>
+
             </div>
 
             <div className={style.blok}>
                 <div>Срок кредита</div>
-                <input type='number' value={creditTerm} onChange={changeCreditTerm}/>
+                <input type={'number'}  value={creditTerm} onChange={changeCreditTerm}/>
             </div>
             <div className={style.blok}>
                 <div>Первоначальный взнос</div>
