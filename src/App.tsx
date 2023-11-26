@@ -242,7 +242,7 @@ function App() {
             </div>
             <div className={style.blok}>
                 <div className={style.title}>
-                    Стоимость квартиры
+                    Стоимость недвижимости
                 </div>
                 <div>
                     {/* <input className={error?style.error:''} type={'number'}  value={costApartment}
