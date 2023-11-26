@@ -198,7 +198,7 @@ function App() {
                     style={{width: '150px'}}
                     label="Лет"
                     size="small"
-                    value={creditTerm.toLocaleString()}
+                    value={creditTerm.toString()}
                     onChange={changeCreditTerm}
                     type={'number'}
                     id="outlined-start-adornment"
