@@ -53,7 +53,7 @@ function App() {
                 {name: "Сбербанк", data: [{pv: 20, percent: 8}]},
                 {name: "Дом рф", data: [{pv: 20, percent: 7.8}]},
                 {name: "Открытие", data: [{pv: 20, percent: 7.89},{pv: 30, percent: 7.89}]},
-                {name: "Россельхоз", data: [{pv: 20, percent: 3}]},
+
 
             ]
         },
@@ -79,7 +79,14 @@ function App() {
                 {name: "ПСБ", data: [{pv: 30, percent: 17}]},
 
             ]
-        }
+        },
+        {
+            banksProgramm: 'Сельская',
+            banks: [
+                {name: "Россельхоз", data: [{pv: 20, percent: 3}]},
+            ]
+        },
+
     ]
 
 
