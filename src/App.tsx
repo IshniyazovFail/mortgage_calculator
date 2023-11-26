@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import style from './app.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "./state/store";
@@ -35,9 +35,9 @@ function App() {
     const [error, setError] = useState('')
     const [errorPv, setErrorPv] = useState('')
 
-    useEffect(() => {
+/*    useEffect(() => {
         dispatsh(betSelectionAC(bank.data[0].percent))
-    }, [])
+    },[bank.data])*/
 
     const onChangeBank = (e: SelectChangeEvent,) => {
         const value = e.target.value
@@ -55,6 +55,7 @@ function App() {
 
 //1.010325  11.766694949
     const changeCreditTerm = (e: ChangeEvent<HTMLInputElement>) => {
+        console.log(e.target.value)
         dispatsh(creditTermAC(Number(e.target.value)))
     }
 
@@ -159,8 +160,9 @@ function App() {
                         error={error !== ''}
                         style={{width: '150px'}}
                         label="Рублей"
+                        type={'number'}
                         size="small"
-                        value={costApartment}
+                        value={costApartment.toString()}
                         onChange={InputCostApartmentHandler}
                         id="outlined-start-adornment"
                         helperText={error}
@@ -175,11 +177,12 @@ function App() {
                 </div>
                 <div>
                     <TextField
+                        type={'number'}
                         error={errorPv !== ''}
                         style={{width: '150px'}}
                         label="Рублей"
                         size="small"
-                        value={pvRubFinal}
+                        value={pvRubFinal.toString()}
                         onChange={InputPvRubFinalHandler}
                         id="outlined-start-adornment"
                         helperText={errorPv}
@@ -195,7 +198,7 @@ function App() {
                     style={{width: '150px'}}
                     label="Лет"
                     size="small"
-                    value={creditTerm}
+                    value={creditTerm.toLocaleString()}
                     onChange={changeCreditTerm}
                     type={'number'}
                     id="outlined-start-adornment"
