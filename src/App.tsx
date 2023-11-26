@@ -3,7 +3,7 @@ import style from './app.module.css';
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "./state/store";
 import {
-    bankSelectionAC,
+    bankSelectionAC, banksSelectionAC,
     BankType,
     betSelectionAC,
     calculationAC,
@@ -22,23 +22,80 @@ function App() {
     const pvRubFinal = useSelector<RootStateType, number>(state => state.pvRubFinal)
     const onaMortgageFinal = useSelector<RootStateType, number>(state => state.onaMortgageFinal)
     const paymentFinal = useSelector<RootStateType, number>(state => state.paymentFinal)
-   /* const [pvPercent, setPvPercent] = useState(bank.data[0].pv)*/
+    const banks=useSelector<RootStateType,Array<BankType>>(state=>state.banks)
     const dispatsh = useDispatch()
 
 
-    const banks = [
+   /* const banks1 = [
         {name: "alfa", data: [{pv: 10, percent: 12.39}, {pv: 15, percent: 11.89}]},
         {name: "vtb", data: [{pv: 10, percent: 11.2}, {pv: 20, percent: 10.9}]},
         {name: "sovcom", data: [{pv: 15, percent: 11.99}]}
+    ]*/
+    const state = [
+        {
+            banksProgramm: 'Семейная',
+            banks: [
+                {name: "Альфа-банк", data: [{pv: 30, percent: 5.8}]},
+                {name: "ВТБ", data: [{pv: 20, percent: 6}]},
+                {name: "АкБарсБанк", data: [{pv: 20, percent: 5.8}]},
+                {name: "Сбербанк", data: [{pv: 20, percent: 6}]},
+                {name: "Дом рф", data: [{pv: 20, percent: 5.8}]},
+                {name: "Открытие", data: [{pv: 20, percent: 5.89},{pv: 30, percent: 5.69}]},
+                {name: "ПСБ", data: [{pv: 20, percent: 5.9}]},
+            ]
+        },
+        {
+            banksProgramm: 'Господдержка',
+            banks: [
+                {name: "Альфа-банк", data: [{pv: 30, percent: 8}]},
+                {name: "ВТБ", data: [{pv: 20, percent: 8}]},
+                {name: "АкБарсБанк", data: [{pv: 20, percent: 7.8}]},
+                {name: "Сбербанк", data: [{pv: 20, percent: 8}]},
+                {name: "Дом рф", data: [{pv: 20, percent: 7.8}]},
+                {name: "Открытие", data: [{pv: 20, percent: 7.89},{pv: 30, percent: 7.89}]},
+                {name: "Россельхоз", data: [{pv: 20, percent: 3}]},
+
+            ]
+        },
+        {
+            banksProgramm: 'IT',
+            banks: [
+                {name: "Альфа-банк", data: [{pv: 30, percent: 4.8}]},
+                {name: "ВТБ", data: [{pv: 20, percent: 5}]},
+                {name: "АкБарсБанк", data: [{pv: 20, percent: 4.8}]},
+                {name: "Сбербанк", data: [{pv: 20, percent: 5}]},
+                {name: "Дом рф", data: [{pv: 20, percent: 4.6}]},
+
+            ]
+        },
+        {
+            banksProgramm: 'Стандартная',
+            banks: [
+                {name: "Альфа-банк", data: [{pv: 30, percent: 17.09}]},
+                {name: "ВТБ", data: [{pv: 20, percent: 17.10}]},
+                {name: "АкБарсБанк", data: [{pv: 20, percent:16.6}]},
+                {name: "Сбербанк", data: [{pv: 10, percent: 19.4},{pv: 20, percent: 18.4}]},
+                {name: "Дом рф", data: [{pv: 20, percent: 4.6}]},
+                {name: "ПСБ", data: [{pv: 30, percent: 17}]},
+
+            ]
+        }
     ]
+
 
     const [error, setError] = useState('')
     const [errorPv, setErrorPv] = useState('')
 
-/*    useEffect(() => {
-        dispatsh(betSelectionAC(bank.data[0].percent))
-    },[bank.data])*/
+    /*    useEffect(() => {
+            dispatsh(betSelectionAC(bank.data[0].percent))
+        },[bank.data])*/
 
+
+    const onChangeProgrammBank=(e: SelectChangeEvent)=>{
+        const value = e.target.value
+        let actBanks=state.filter(s=>s.banksProgramm===value)
+        dispatsh(banksSelectionAC(actBanks[0].banks))
+    }
     const onChangeBank = (e: SelectChangeEvent,) => {
         const value = e.target.value
         let actBank = banks.filter(b => b.name === value)
@@ -46,7 +103,7 @@ function App() {
         dispatsh(betSelectionAC(actBank[0].data[0].percent))
 
     }
-    const onChangeBet = (e: SelectChangeEvent, ) => {
+    const onChangeBet = (e: SelectChangeEvent,) => {
         let pvBet = Number(e.target.value)
         /*setPvPercent(pvBet)*/
         let actBet = bank.data.filter(bet => bet.pv === pvBet)
@@ -92,7 +149,33 @@ function App() {
     return (
         <div className={style.container}>
             <div className={style.name}>
-                TANDEM DEVELOPMENT
+                ЗЕЛЁНАЯ СЛАБОДА
+            </div>
+            <div className={style.blok}>
+                <div className={style.title}>
+                    Выберите программу
+                </div>
+
+                {/*<select onChange={onChangeBank}>
+                    <option value="alfa">Альфа</option>
+                    <option value="vtb">ВТБ</option>
+                    <option value="sovcom">Совкомбанк</option>
+                </select>*/}
+                 <FormControl size="small" style={{width: '150px', color: 'black'}}>
+                        <InputLabel id="demo-simple-select-label">Программа</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            label="alfa"
+                            onChange={onChangeProgrammBank}
+                            /* value={bank.name}*/
+                        >
+
+                            {state.map((el)=> <MenuItem value={el.banksProgramm}>{el.banksProgramm}</MenuItem>)}
+                        </Select>
+                    </FormControl>
+
+
             </div>
             <div className={style.blok}>
                 <div className={style.title}>
@@ -111,11 +194,13 @@ function App() {
                         id="demo-simple-select"
                         label="alfa"
                         onChange={onChangeBank}
+                        disabled={banks[0].name === ''}
                         /* value={bank.name}*/
                     >
-                        <MenuItem value="alfa">Альфа</MenuItem>
+                        {banks.map(bank=> <MenuItem value={bank.name}>{bank.name}</MenuItem>)}
+                       {/* <MenuItem value="alfa">Альфа</MenuItem>
                         <MenuItem value="vtb">ВТБ</MenuItem>
-                        <MenuItem value="sovcom">Совкомбанк</MenuItem>
+                        <MenuItem value="sovcom">Совкомбанк</MenuItem>*/}
                     </Select>
                 </FormControl>
             </div>
