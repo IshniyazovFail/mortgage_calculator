@@ -8,7 +8,7 @@ import {
     betSelectionAC,
     calculationAC,
     costApartmentAC,
-    creditTermAC
+    creditTermAC, pvRubFinalAC
 } from "./state/bank-reducer";
 import {Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField} from "@mui/material";
 
@@ -32,6 +32,7 @@ function App() {
     ]
 
     const [error, setError] = useState('')
+    const [errorPv, setErrorPv] = useState('')
 
     useEffect(() => {
         dispatsh(betSelectionAC(bank.data[0].percent))
@@ -60,10 +61,14 @@ function App() {
         setError('')
         dispatsh(costApartmentAC(Number(e.target.value)))
     }
+    const InputPvRubFinalHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setError('')
+        dispatsh( pvRubFinalAC(Number(e.target.value)))
+    }
 
     const calculation = () => {
-        const pvRub = costApartment * pvPercent / 100
-        const onaMortgage = costApartment - pvRub
+      /*  const pvRub = costApartment * pvPercent / 100*/
+        const onaMortgage = costApartment - pvRubFinal
         const creditTermYear = creditTerm * 12
         const betYear = bet / 12
         const numerator = betYear * Math.pow((1 + betYear), creditTermYear)
@@ -71,10 +76,13 @@ function App() {
 
         const payment = Math.round(onaMortgage * (numerator / denominator))
         if (costApartment === 0) {
-            setError('введите стоимость квартиры')
+            setError('укажите стоимость квартиры')
+        }
+        if(pvRubFinal===0){
+            setErrorPv('укажите первоначальный взнос')
         }
 
-        dispatsh(calculationAC(pvRub, onaMortgage, payment))
+        dispatsh(calculationAC( onaMortgage, payment))
 
     }
 
@@ -156,6 +164,23 @@ function App() {
             </div>
 
             <div className={style.blok}>
+               Первоначальный взнос
+                <div>
+                    <TextField
+                        error={errorPv !== ''}
+                        style={{width: '150px'}}
+                        label="Рублей"
+                        size="small"
+                        value={pvRubFinal}
+                        onChange={InputPvRubFinalHandler}
+                        type={'number'}
+                        id="outlined-start-adornment"
+                        helperText={errorPv}
+                    />
+                </div>
+
+            </div>
+            <div className={style.blok}>
                 <div>Срок кредита</div>
                 {/*<input type={'number'}  value={creditTerm} onChange={changeCreditTerm}/>*/}
 
@@ -169,10 +194,10 @@ function App() {
                     id="outlined-start-adornment"
                 />
             </div>
-            <div className={style.blok}>
+           {/* <div className={style.blok}>
                 <div>Первоначальный взнос</div>
                 <div>{pvRubFinal} руб</div>
-            </div>
+            </div>*/}
             <div className={style.blok}>
                 <div>В ипотеку</div>
                 <div>{onaMortgageFinal} руб</div>

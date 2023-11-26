@@ -15,13 +15,14 @@ export type BanksStateType = {
     onaMortgageFinal:number,
     paymentFinal:number
 }
-export type InitialActionType = bankSelectionType | betSelectionType|costApartmentType|creditTermType|calculationType
+export type InitialActionType = bankSelectionType | betSelectionType|costApartmentType|creditTermType|calculationType|pvRubFinalType
 
 type bankSelectionType = ReturnType<typeof bankSelectionAC>
 type betSelectionType = ReturnType<typeof betSelectionAC>
 type costApartmentType = ReturnType<typeof costApartmentAC>
 type creditTermType = ReturnType<typeof creditTermAC>
 type calculationType = ReturnType<typeof calculationAC>
+type pvRubFinalType=ReturnType<typeof pvRubFinalAC>
 let initialState: BanksStateType = {
     bet: 0,
     /*bank: {name: "alfa", data: [{pv: 10, percent: 12.39}, {pv: 15, percent: 11.89}]},*/
@@ -46,7 +47,9 @@ export const bankReducer = (state: BanksStateType = initialState, action: Initia
         case "CHANGE_CREDIT_TERM":
             return {...state,creditTerm:action.creditTerm}
         case "CALCULATION":
-            return {...state,pvRubFinal:action.pvRubFinal,onaMortgageFinal:action.onaMortgageFinal,paymentFinal:action.paymentFinal}
+            return {...state,onaMortgageFinal:action.onaMortgageFinal,paymentFinal:action.paymentFinal}
+        case "CHANGE_PV":
+            return {...state,pvRubFinal:action.pvRubFinal}
         default:
             return state
     }
@@ -78,12 +81,18 @@ export const creditTermAC = (creditTerm: number) => {
         creditTerm
     }
 }
-export const calculationAC = (pvRubFinal:number,
+
+export const pvRubFinalAC=(pvRubFinal:number)=>{
+    return{
+        type:"CHANGE_PV" as const ,
+        pvRubFinal
+    }
+}
+export const calculationAC = (
                               onaMortgageFinal:number,
                               paymentFinal:number) => {
     return {
         type: "CALCULATION" as const,
-        pvRubFinal,
         onaMortgageFinal,
         paymentFinal    }
 }
